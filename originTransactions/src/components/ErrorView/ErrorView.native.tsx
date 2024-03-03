@@ -1,5 +1,6 @@
 import React from 'react';
 import Styled from './ErrorView.styles';
+import Button from '@components/Button/Button.native';
 
 interface Props {
   onTryAgain: () => void;
@@ -8,9 +9,7 @@ interface Props {
 const ErrorView = ({onTryAgain}: Props) => {
   return (
     <Styled.Container>
-      <Styled.Button onPress={onTryAgain}>
-        <Styled.Label>Try Again</Styled.Label>
-      </Styled.Button>
+      <Button onPress={onTryAgain} label="Try Again" />
     </Styled.Container>
   );
 };

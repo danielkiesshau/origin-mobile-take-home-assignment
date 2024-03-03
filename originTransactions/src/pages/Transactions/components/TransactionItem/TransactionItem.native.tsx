@@ -1,16 +1,19 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
 
 interface Props {
   transaction: Transaction;
+  goToTransactionDetail: (transaction: Transaction) => void;
 }
 
-function TransactionItem({transaction}: Props) {
+function TransactionItem({transaction, goToTransactionDetail}: Props) {
   return (
-    <View style={{height: 50, justifyContent: 'center', alignItems: 'center'}}>
+    <TouchableOpacity
+      onPress={() => goToTransactionDetail(transaction)}
+      style={{height: 50, justifyContent: 'center', alignItems: 'center'}}>
       <Text>{transaction.amount}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 
