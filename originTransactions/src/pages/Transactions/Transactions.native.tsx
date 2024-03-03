@@ -1,11 +1,24 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {FlatList} from 'react-native';
+import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
+import TransactionItem from './components/TransactionItem/TransactionItem.native';
 
-function Transactions() {
+interface Props {
+  transactions: Transaction[];
+}
+
+function Transactions({transactions}: Props) {
+  const keyExtractor = (item: Transaction) => item.id.toString();
+  const renderItem = ({item}: {item: Transaction}) => (
+    <TransactionItem transaction={item} />
+  );
+
   return (
-    <View>
-      <Text>Transactions</Text>
-    </View>
+    <FlatList
+      data={transactions}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
+    />
   );
 }
 
