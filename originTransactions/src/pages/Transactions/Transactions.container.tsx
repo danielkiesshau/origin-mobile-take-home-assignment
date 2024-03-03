@@ -18,13 +18,18 @@ function TransactionsContainer({navigation}: Props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const currentPage = useRef<number>(1);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [hasError, setError] = useState<boolean>(false);
 
-  const getTransactions = async () => {
+  const getTransactions = async (isFirstLoad?: boolean) => {
     try {
       const service = new TransactionsService();
       const response = await service.getTransactions(currentPage.current);
-      setTransactions([...transactions, ...response]);
+
+      const updatedTransactions = isFirstLoad
+        ? response
+        : [...transactions, ...response];
+      setTransactions(updatedTransactions);
 
       if (hasError) {
         setError(false);
@@ -39,8 +44,14 @@ function TransactionsContainer({navigation}: Props) {
   const loadNextPage = () => {
     if (!isLoading) {
       currentPage.current += 1;
-      getTransactions();
+      getTransactions(false);
     }
+  };
+
+  const loadTransactions = async () => {
+    setIsRefreshing(true);
+    await getTransactions(true);
+    setIsRefreshing(false);
   };
 
   const goToTransactionDetail = (transaction: Transaction) => {
@@ -48,7 +59,7 @@ function TransactionsContainer({navigation}: Props) {
   };
 
   useEffect(() => {
-    getTransactions();
+    getTransactions(true);
   }, []);
 
   if (isLoading) {
@@ -62,8 +73,10 @@ function TransactionsContainer({navigation}: Props) {
   return (
     <TransactionsNative
       transactions={transactions}
+      isRefreshing={isRefreshing}
       goToTransactionDetail={goToTransactionDetail}
       loadNextPage={loadNextPage}
+      loadTransactions={loadTransactions}
     />
   );
 }
