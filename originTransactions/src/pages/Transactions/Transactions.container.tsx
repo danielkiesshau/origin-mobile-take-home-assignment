@@ -1,10 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import TransactionsService from '@modules/services/TransactionsService';
 import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
 import LoadingView from '@components/LoadingView/LoadingView.native';
 import ErrorView from '@components/ErrorView/ErrorView.native';
 import Routes, {RootStackParamList} from '@routes/Routes';
+import transactionServiceFactory from '@services/Transactions/TransactionsServiceFactory';
+import LocalStorage, {
+  LocalStorageKeys,
+} from '@modules/libs/localStorage/localStorage';
+
 import TransactionsNative from './Transactions.native';
 
 interface Props {
@@ -23,13 +27,15 @@ function TransactionsContainer({navigation}: Props) {
 
   const getTransactions = async (isFirstLoad?: boolean) => {
     try {
-      const service = new TransactionsService();
+      const service = await transactionServiceFactory();
       const response = await service.getTransactions(currentPage.current);
 
       const updatedTransactions = isFirstLoad
         ? response
         : [...transactions, ...response];
+
       setTransactions(updatedTransactions);
+      LocalStorage.set(LocalStorageKeys.TRANSACTIONS, updatedTransactions);
 
       if (hasError) {
         setError(false);

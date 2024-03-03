@@ -2,6 +2,7 @@ import enviromentVariables from '@libs/enviromentVariables';
 import Api from '@modules/libs/api/Api';
 import TransactionsDTO from '@dtos/Transactions/TransactionsDTO';
 import {Transaction} from '@dtos/Transactions/TransactionDTO';
+import TransactionsServiceI from '@services/Transactions/interfaces/TransactionsService';
 
 export interface TransactionResponseAPI {
   Id: number;
@@ -25,7 +26,7 @@ export interface TransactionsResponseAPI {
   };
 }
 
-export default class TransactionsService {
+export default class TransactionsService implements TransactionsServiceI {
   private baseUrl = enviromentVariables.TRANSACTION_BASE_URL;
   private pageSize = 50;
 
@@ -41,7 +42,7 @@ export default class TransactionsService {
       Lat: lat,
       Lon: lon,
     };
-    console.log('POST', url, body);
-    return Api.post(url, body);
+
+    Api.post(url, body);
   }
 }

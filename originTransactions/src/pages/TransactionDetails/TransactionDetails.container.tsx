@@ -4,8 +4,8 @@ import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
 import Routes, {RootStackParamList} from '@routes/Routes';
 import ErrorView from '@components/ErrorView/ErrorView.native';
-import TransactionsService from '@modules/services/TransactionsService';
 import GeoLocation from '@modules/libs/geoLocation/GeoLocation';
+import transactionServiceFactory from '@modules/services/Transactions/TransactionsServiceFactory';
 import TransactionDetailsNative from './TransactionDetails.native';
 
 interface Props {
@@ -21,7 +21,9 @@ function TransactionDetailsContainer({route, navigation}: Props) {
     status: false,
     message: '',
   });
-  const {transaction} = route.params;
+  const [transactionDetail, setTransaction] = useState(
+    route.params.transaction,
+  );
 
   const validateGeoPermission = async (): Promise<boolean> => {
     const hasLocationPermission = await GeoLocation.requestAuthorization();
@@ -62,9 +64,14 @@ function TransactionDetailsContainer({route, navigation}: Props) {
 
   const updateTransactionLocation = async () => {
     const updateTransaction = async (lat: number, lon: number) => {
-      const service = new TransactionsService();
       try {
-        await service.updateTransactionLocation(transaction.id, lat, lon);
+        const service = await transactionServiceFactory();
+        await service.updateTransactionLocation(transactionDetail.id, lat, lon);
+        setTransaction({
+          ...transactionDetail,
+          lat,
+          lon,
+        });
       } catch (err) {
         setError({
           status: true,
@@ -82,7 +89,7 @@ function TransactionDetailsContainer({route, navigation}: Props) {
 
   return (
     <TransactionDetailsNative
-      transaction={transaction}
+      transaction={transactionDetail}
       updateTransactionLocation={updateTransactionLocation}
     />
   );
