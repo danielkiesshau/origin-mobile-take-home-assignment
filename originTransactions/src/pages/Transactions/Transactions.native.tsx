@@ -5,12 +5,21 @@ import TransactionItem from './components/TransactionItem/TransactionItem.native
 
 interface Props {
   transactions: Transaction[];
+  goToTransactionDetail: (transaction: Transaction) => void;
+  loadNextPage: () => void;
 }
 
-function Transactions({transactions}: Props) {
+function Transactions({
+  transactions,
+  goToTransactionDetail,
+  loadNextPage,
+}: Props) {
   const keyExtractor = (item: Transaction) => item.id.toString();
   const renderItem = ({item}: {item: Transaction}) => (
-    <TransactionItem transaction={item} />
+    <TransactionItem
+      transaction={item}
+      goToTransactionDetail={goToTransactionDetail}
+    />
   );
 
   return (
@@ -18,6 +27,7 @@ function Transactions({transactions}: Props) {
       data={transactions}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
+      onEndReached={loadNextPage}
     />
   );
 }

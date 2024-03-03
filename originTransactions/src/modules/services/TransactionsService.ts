@@ -26,9 +26,10 @@ export interface TransactionsResponseAPI {
 
 export default class TransactionsService {
   private baseUrl = enviromentVariables.TRANSACTION_BASE_URL;
+  private pageSize = 50;
 
-  async getTransactions(page: number, pageSize: number) {
-    const url = `${this.baseUrl}?page=${page}&pageSize=${pageSize}`;
+  async getTransactions(page: number) {
+    const url = `${this.baseUrl}?page=${page}&pageSize=${this.pageSize}`;
     const response: TransactionsResponseAPI = await Api.get(url);
     return TransactionsDTO.parse(response);
   }
