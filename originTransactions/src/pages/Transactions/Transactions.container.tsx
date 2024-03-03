@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import TransactionsService from '@modules/services/TransactionsService';
 import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
@@ -16,14 +16,14 @@ interface Props {
 
 function TransactionsContainer({navigation}: Props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [currentPage, setPage] = useState<number>(1);
+  const currentPage = useRef<number>(1);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [hasError, setError] = useState<boolean>(false);
 
   const getTransactions = async () => {
     try {
       const service = new TransactionsService();
-      const response = await service.getTransactions(currentPage);
+      const response = await service.getTransactions(currentPage.current);
       setTransactions([...transactions, ...response]);
 
       if (hasError) {
@@ -38,7 +38,8 @@ function TransactionsContainer({navigation}: Props) {
 
   const loadNextPage = () => {
     if (!isLoading) {
-      setPage(curr => curr + 1);
+      currentPage.current += 1;
+      getTransactions();
     }
   };
 
@@ -48,7 +49,7 @@ function TransactionsContainer({navigation}: Props) {
 
   useEffect(() => {
     getTransactions();
-  }, [currentPage]);
+  }, []);
 
   if (isLoading) {
     return <LoadingView />;
