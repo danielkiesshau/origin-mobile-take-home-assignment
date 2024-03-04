@@ -22,10 +22,12 @@ function TransactionDetailsNative({
       <Text>{`Category ${transaction.category}`}</Text>
       <Text>{`Lat ${transaction.lat}`}</Text>
       <Text>{`Long ${transaction.lon}`}</Text>
-      <Image
-        style={{height: 80, width: 80}}
-        source={{uri: transaction.receiptImage}}
-      />
+      {transaction.receiptImage && (
+        <Image
+          style={{height: 80, width: 80}}
+          source={{uri: transaction.receiptImage}}
+        />
+      )}
       <Button label="Update Location" onPress={updateTransactionLocation} />
     </View>
   );
