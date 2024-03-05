@@ -26,7 +26,7 @@ function TransactionDetailsContainer({route, navigation}: Props) {
   );
 
   const validateGeoPermission = async (): Promise<boolean> => {
-    const hasLocationPermission = await GeoLocation.requestAuthorization();
+    const hasLocationPermission = await GeoLocation.requestPermission();
 
     if (!hasLocationPermission) {
       Alert.alert('GeoLocation is needed to update the transaction location');
