@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import * as yup from 'yup';
 import {Alert} from 'react-native';
 import {useForm} from 'react-hook-form';
@@ -6,6 +6,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import AuthService from '@modules/services/Auth/AuthService';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Routes, {RootStackParamList} from '@routes/Routes';
+import {AuthContext} from '@modules/contexts/AuthContext';
 import SignInNative from './SignIn.native';
 
 const schema = yup.object().shape({
@@ -40,6 +41,7 @@ function SignInContainer({navigation}: Props) {
       password: '',
     },
   });
+  const [isSignedIn, setSignedIn] = useContext(AuthContext);
 
   const onPressSend = (formData: SignInForm) => {
     const service = new AuthService();
@@ -48,12 +50,21 @@ function SignInContainer({navigation}: Props) {
 
     if (!success) {
       Alert.alert('Error', 'Invalid credentials');
+      return;
     }
+    setSignedIn(true);
   };
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigation.navigate(Routes.TRANSACTIONS);
+    }
+  }, [isSignedIn]);
 
   const goToRegister = () => {
     navigation.navigate(Routes.SIGN_UP);
   };
+
   return (
     <SignInNative
       errors={errors}

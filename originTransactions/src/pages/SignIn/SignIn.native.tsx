@@ -24,7 +24,7 @@ function SignInNative({control, errors, handleSubmit, goToRegister}: Props) {
       <Input
         isRequired
         isSensitiveData
-        error={errors.email?.message}
+        error={errors.password?.message}
         control={control}
         name="password"
         placeholder="Password"

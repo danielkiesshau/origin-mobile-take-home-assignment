@@ -27,6 +27,7 @@ function Input<T extends FieldValues>({
       render={({field: {onChange, value}}) => (
         <>
           <TextInput
+            autoCapitalize="none"
             value={value}
             onChangeText={onChange}
             placeholder={placeholder}
