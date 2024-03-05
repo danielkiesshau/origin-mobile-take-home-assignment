@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import {Alert} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Auth from '@modules/services/Auth/Auth';
+import AuthService from '@modules/services/Auth/AuthService';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Routes, {RootStackParamList} from '@routes/Routes';
 import SignInNative from './SignIn.native';
@@ -42,7 +42,7 @@ function SignInContainer({navigation}: Props) {
   });
 
   const onPressSend = (formData: SignInForm) => {
-    const service = new Auth();
+    const service = new AuthService();
 
     const success = service.signIn(formData.email, formData.password);
 

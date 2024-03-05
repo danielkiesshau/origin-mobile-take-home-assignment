@@ -4,8 +4,7 @@ import enviromentVariables from '../enviromentVariables';
 export enum LocalStorageKeys {
   TRANSACTIONS = 'transactions',
   IS_SIGNED_IN = 'is_signed_in',
-  USER_EMAIL = 'user_email',
-  USER_PASSWORD = 'user_password',
+  USERS = 'users',
 }
 
 export default class LocalStorage {
