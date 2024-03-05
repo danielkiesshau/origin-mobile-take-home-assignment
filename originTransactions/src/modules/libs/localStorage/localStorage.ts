@@ -23,7 +23,7 @@ export default class LocalStorage {
     return JSON.parse(result);
   }
 
-  public static set(key: string, value: object | string) {
+  public static set(key: string, value: object | string | boolean) {
     return LocalStorage.mmkv.set(key, JSON.stringify(value));
   }
 }

@@ -11,6 +11,10 @@ interface UserMap {
 }
 
 export default class AuthService {
+  public exit() {
+    LocalStorage.set(LocalStorageKeys.IS_SIGNED_IN, false);
+  }
+
   public signUp(email: string, password: string, username: string) {
     const users = LocalStorage.get<UserMap>(LocalStorageKeys.USERS) || {};
 

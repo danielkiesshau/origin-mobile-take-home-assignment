@@ -5,6 +5,7 @@ import TransactionsContainer from '@pages/Transactions/Transactions.container';
 import TransactionDetailsContainer from '@pages/TransactionDetails/TransactionDetails.container';
 import SignInContainer from '@pages/SignIn/SignIn.container';
 import SignUpContainer from '@pages/SignUp/SignUp.container';
+import SignOutButton from '@components/SignOutButton/SignOutButton.container';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -15,6 +16,9 @@ const AuthenticatedStack = () => {
         <Stack.Screen
           name={Routes.TRANSACTIONS}
           component={TransactionsContainer}
+          options={{
+            headerRight: () => <SignOutButton />,
+          }}
         />
         <Stack.Screen
           name={Routes.TRANSACTION_DETAILS}

@@ -8,7 +8,7 @@ import {AuthContext} from '@modules/contexts/AuthContext';
 
 export default function App() {
   const [isSignedIn, setSignedIn] = useState<boolean>(
-    LocalStorage.get(LocalStorageKeys.IS_SIGNED_IN) !== null,
+    Boolean(LocalStorage.get(LocalStorageKeys.IS_SIGNED_IN)) === true,
   );
   const CurrentStack = isSignedIn
     ? Stack.AuthenticatedStack
