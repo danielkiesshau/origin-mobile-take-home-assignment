@@ -1,17 +1,13 @@
 import React from 'react';
-import Styled from './Button.styles';
+import {Button} from 'react-native';
 
 interface Props {
   onPress: () => void;
   label: string;
 }
 
-const Button = ({onPress, label}: Props) => {
-  return (
-    <Styled.Button onPress={onPress}>
-      <Styled.Label>{label}</Styled.Label>
-    </Styled.Button>
-  );
+const ButtonNative = ({onPress, label}: Props) => {
+  return <Button onPress={onPress} title={label} />;
 };
 
-export default Button;
+export default ButtonNative;

@@ -11,6 +11,8 @@
 Since there is a need to share components with a web application, using "standard css" with this libs helps share styling between both platforms
 **react-native-mmkv**
 A more secure and more perfomatic way to save data locally in the device
+**react-hook-forms + yup**
+For a more scalable form manipulation and validation
 ## Scaffold
 **UI (pages)**
 Are divided into:
