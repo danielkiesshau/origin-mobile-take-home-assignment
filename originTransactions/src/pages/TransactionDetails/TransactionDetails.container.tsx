@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Alert} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -6,6 +6,8 @@ import Routes, {RootStackParamList} from '@routes/Routes';
 import ErrorView from '@components/ErrorView/ErrorView.native';
 import GeoLocation from '@modules/libs/geoLocation/GeoLocation';
 import transactionServiceFactory from '@modules/services/Transactions/TransactionsServiceFactory';
+import {TransactionsContext} from '@modules/contexts/TransactionsContext';
+import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
 import TransactionDetailsNative from './TransactionDetails.native';
 
 interface Props {
@@ -24,6 +26,7 @@ function TransactionDetailsContainer({route, navigation}: Props) {
   const [transactionDetail, setTransaction] = useState(
     route.params.transaction,
   );
+  const [transactions, setTransactions] = useContext(TransactionsContext);
 
   const validateGeoPermission = async (): Promise<boolean> => {
     const hasLocationPermission = await GeoLocation.requestPermission();
@@ -67,16 +70,28 @@ function TransactionDetailsContainer({route, navigation}: Props) {
       try {
         const service = await transactionServiceFactory();
         await service.updateTransactionLocation(transactionDetail.id, lat, lon);
-        setTransaction({
+        const updatedTransaction = {
           ...transactionDetail,
           lat,
           lon,
-        });
+        };
+        setTransaction(updatedTransaction);
+        updateTransactions(updatedTransaction);
       } catch (err) {
         setError({
           status: true,
           message: 'Error updating location',
         });
+      }
+
+      function updateTransactions(updatedTransaction: Transaction) {
+        const updatedTransactions = transactions.map(transaction =>
+          transaction.id === transactionDetail.id
+            ? updatedTransaction
+            : transaction,
+        );
+
+        setTransactions(updatedTransactions);
       }
     };
 

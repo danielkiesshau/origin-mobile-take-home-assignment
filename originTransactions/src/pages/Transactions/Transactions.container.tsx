@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
 import LoadingView from '@components/LoadingView/LoadingView.native';
@@ -8,6 +8,7 @@ import transactionServiceFactory from '@services/Transactions/TransactionsServic
 import LocalStorage, {
   LocalStorageKeys,
 } from '@modules/libs/localStorage/localStorage';
+import {TransactionsContext} from '@modules/contexts/TransactionsContext';
 
 import TransactionsNative from './Transactions.native';
 
@@ -19,7 +20,7 @@ interface Props {
 }
 
 function TransactionsContainer({navigation}: Props) {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useContext(TransactionsContext);
   const currentPage = useRef<number>(1);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
