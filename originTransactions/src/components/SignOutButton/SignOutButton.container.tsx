@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {AuthContext} from '@modules/contexts/AuthContext';
 import ButtonNative from '@components/Button/Button.native';
-import AuthService from '../../modules/services/Auth/AuthService';
+import AuthService from '@modules/services/Auth/AuthService';
 
 const SignOutButton = () => {
   const [_, setSignedIn] = useContext(AuthContext);

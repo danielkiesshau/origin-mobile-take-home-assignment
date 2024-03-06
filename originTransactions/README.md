@@ -25,3 +25,11 @@ This is important to make a more scalable project and to make sure a change in U
 Communication with external APIs
 ## libs
 Architectural layer to interface communication with common libraries used in the app. Adopting this approach we can change core libraries as needed
+## dtos
+Responsible to transform data received from APIs to application's entities
+## contexts
+I decided to use the context api due to the simplicity of the project's requirements
+## pages -> components
+UI Components
+### Final Observations
+The `AuthService` is a mock to simulate a backend authentication, it is not production code, and not a valid approach for real projects
