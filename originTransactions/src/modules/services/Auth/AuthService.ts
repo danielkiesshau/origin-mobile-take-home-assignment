@@ -15,12 +15,18 @@ export default class AuthService {
     LocalStorage.set(LocalStorageKeys.IS_SIGNED_IN, false);
   }
 
-  public signUp(email: string, password: string, username: string) {
+  public signUp(email: string, password: string, username: string): boolean {
     const users = LocalStorage.get<UserMap>(LocalStorageKeys.USERS) || {};
+
+    if (users[email]) {
+      return false;
+    }
 
     users[email] = {email, password, username};
 
     LocalStorage.set(LocalStorageKeys.USERS, users);
+
+    return true;
   }
 
   public signIn(email: string, password: string): boolean {

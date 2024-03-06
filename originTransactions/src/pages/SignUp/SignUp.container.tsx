@@ -49,7 +49,16 @@ function SignInContainer({navigation}: Props) {
   const onPressSend = (formData: SignInForm) => {
     const service = new AuthService();
 
-    service.signUp(formData.email, formData.password, formData.username);
+    const success = service.signUp(
+      formData.email,
+      formData.password,
+      formData.username,
+    );
+
+    if (!success) {
+      Alert.alert('Error', 'Invalid Email, try another one');
+      return;
+    }
 
     Alert.alert('Success', 'User created, now login with your credentials');
 
