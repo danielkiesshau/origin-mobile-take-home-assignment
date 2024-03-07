@@ -8,6 +8,7 @@ import SignUpContainer from '@pages/SignUp/SignUp.container';
 import SignOutButton from '@components/SignOutButton/SignOutButton.container';
 import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
 import {TransactionsContext} from '@modules/contexts/TransactionsContext';
+import RouteStyles from './Route.styles';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -22,11 +23,17 @@ const AuthenticatedStack = () => {
             component={TransactionsContainer}
             options={{
               headerRight: SignOutButton,
+              title: 'Transactions',
+              ...RouteStyles.DEFAULT_HEADER_STYLES,
             }}
           />
           <Stack.Screen
             name={Routes.TRANSACTION_DETAILS}
             component={TransactionDetailsContainer}
+            options={{
+              title: 'Transaction Details',
+              ...RouteStyles.DEFAULT_HEADER_STYLES,
+            }}
           />
         </Stack.Navigator>
       </TransactionsContext.Provider>
@@ -38,8 +45,22 @@ const UnauthenticatedStack = () => {
   return (
     <>
       <Stack.Navigator initialRouteName={Routes.SIGN_IN}>
-        <Stack.Screen name={Routes.SIGN_IN} component={SignInContainer} />
-        <Stack.Screen name={Routes.SIGN_UP} component={SignUpContainer} />
+        <Stack.Screen
+          name={Routes.SIGN_IN}
+          component={SignInContainer}
+          options={{
+            title: 'Sign In',
+            ...RouteStyles.DEFAULT_HEADER_STYLES,
+          }}
+        />
+        <Stack.Screen
+          name={Routes.SIGN_UP}
+          component={SignUpContainer}
+          options={{
+            title: 'Sign Up',
+            ...RouteStyles.DEFAULT_HEADER_STYLES,
+          }}
+        />
       </Stack.Navigator>
     </>
   );

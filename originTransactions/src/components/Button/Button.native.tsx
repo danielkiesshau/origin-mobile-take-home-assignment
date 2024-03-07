@@ -1,13 +1,19 @@
 import React from 'react';
-import {Button} from 'react-native';
+import {Button, StyleProp, View, ViewStyle} from 'react-native';
+import {palette} from '@theme/palette';
 
 interface Props {
   onPress: () => void;
   label: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-const ButtonNative = ({onPress, label}: Props) => {
-  return <Button onPress={onPress} title={label} />;
+const ButtonNative = ({style, onPress, label}: Props) => {
+  return (
+    <View style={style}>
+      <Button onPress={onPress} title={label} color={palette.PRIMARY_COLOR} />
+    </View>
+  );
 };
 
 export default ButtonNative;

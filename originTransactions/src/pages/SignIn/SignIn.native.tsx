@@ -2,8 +2,8 @@ import React from 'react';
 import {Control, FieldErrors} from 'react-hook-form';
 import {View} from 'react-native';
 import Input from '@components/Input/Input.native';
-import Button from '@components/Button/Button.native';
 import {SignInForm} from './SignIn.container';
+import Styled from './SignIn.styles';
 
 interface Props {
   control: Control<SignInForm>;
@@ -13,7 +13,7 @@ interface Props {
 }
 function SignInNative({control, errors, handleSubmit, goToRegister}: Props) {
   return (
-    <View style={{flex: 1}}>
+    <View>
       <Input
         isRequired
         error={errors.email?.message}
@@ -29,8 +29,8 @@ function SignInNative({control, errors, handleSubmit, goToRegister}: Props) {
         name="password"
         placeholder="Password"
       />
-      <Button label="LogIn" onPress={handleSubmit} />
-      <Button label="Register" onPress={goToRegister} />
+      <Styled.ActionButton label="LogIn" onPress={handleSubmit} />
+      <Styled.ActionButton label="Register" onPress={goToRegister} />
     </View>
   );
 }

@@ -12,7 +12,7 @@ const SignOutButton = () => {
     setSignedIn(false);
   };
 
-  return <ButtonNative onPress={signOut} label="Log-Out" />;
+  return <ButtonNative onPress={signOut} label="LogOut" />;
 };
 
 export default SignOutButton;

@@ -7,6 +7,7 @@ module.exports = {
         alias: {
           src: './src',
           '@pages': './src/pages',
+          '@theme': './src/theme',
           '@components': './src/components',
           '@modules': './src/modules',
           '@services': './src/modules/services',

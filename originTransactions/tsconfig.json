@@ -11,6 +11,7 @@
       "@dtos/*": ["./src/modules/DTOs/*"],
       "@libs/*": ["./src/modules/libs/*"],
       "@routes/*": ["./src/routes/*"],
+      "@theme/*": ["./src/theme/*"],
     }
   }
 }

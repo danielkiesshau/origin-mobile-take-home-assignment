@@ -13,7 +13,7 @@ interface Props {
 
 function SignInNative({control, errors, handleSubmit}: Props) {
   return (
-    <View style={{flex: 1}}>
+    <View>
       <Input
         isRequired
         error={errors.email?.message}

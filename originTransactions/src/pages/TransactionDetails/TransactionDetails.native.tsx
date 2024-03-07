@@ -1,7 +1,12 @@
-import React from 'react';
-import {Image, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import MapView, {Marker} from 'react-native-maps';
 import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
 import Button from '@components/Button/Button.native';
+import {formatDate} from '@modules/libs/date/date';
+import Label from '@components/Label/Label.native';
+import Styled from './TransactionDetails.styles';
+import InfoLabel from './components/InfoLabel.native';
+import {Platform} from 'react-native';
 
 interface Props {
   transaction: Transaction;
@@ -12,24 +17,53 @@ function TransactionDetailsNative({
   transaction,
   updateTransactionLocation,
 }: Props) {
+  const mapRef = React.createRef<MapView>();
+  const region = {
+    latitude: transaction.lat,
+    longitude: transaction.lon,
+    latitudeDelta: 0.04,
+    longitudeDelta: 0.05,
+  };
+
+  useEffect(() => {
+    mapRef.current?.animateToRegion(region);
+  }, [transaction]);
+
   return (
-    <View>
-      <Text>{`ID ${transaction.id}`}</Text>
-      <Text>{`Amount ${transaction.amount}`}</Text>
-      <Text>{`Date ${transaction.date}`}</Text>
-      <Text>{`Vendor ${transaction.vendor}`}</Text>
-      <Text>{`Type ${transaction.type}`}</Text>
-      <Text>{`Category ${transaction.category}`}</Text>
-      <Text>{`Lat ${transaction.lat}`}</Text>
-      <Text>{`Long ${transaction.lon}`}</Text>
-      {transaction.receiptImage && (
-        <Image
-          style={{height: 80, width: 80}}
-          source={{uri: transaction.receiptImage}}
-        />
+    <Styled.Container>
+      <Styled.ContainerContent>
+        <Styled.Row>
+          <Label>{`#${transaction.id}`}</Label>
+          <Label>{formatDate(transaction.date)}</Label>
+        </Styled.Row>
+        <Styled.AmountLabel>{`$${transaction.amount}`}</Styled.AmountLabel>
+        <Styled.ContainerReceiptImage>
+          {transaction.receiptImage && (
+            <Styled.ReceiptImage source={{uri: transaction.receiptImage}} />
+          )}
+        </Styled.ContainerReceiptImage>
+        <Button label="Update Location" onPress={updateTransactionLocation} />
+
+        <InfoLabel label="Type" value={transaction.type} />
+        <InfoLabel label="Category" value={transaction.category} />
+        {Platform.OS === 'android' && (
+          <>
+            <InfoLabel label="Lat" value={transaction.lat} />
+            <InfoLabel label="Long" value={transaction.lon} />
+          </>
+        )}
+      </Styled.ContainerContent>
+      {Platform.OS === 'ios' && (
+        <Styled.Map initialRegion={region} ref={mapRef}>
+          <Marker
+            coordinate={{
+              latitude: transaction.lat,
+              longitude: transaction.lon,
+            }}
+          />
+        </Styled.Map>
       )}
-      <Button label="Update Location" onPress={updateTransactionLocation} />
-    </View>
+    </Styled.Container>
   );
 }
 

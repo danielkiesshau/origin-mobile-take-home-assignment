@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
 import {Transaction} from '@modules/DTOs/Transactions/TransactionDTO';
+import {formatDate} from '@modules/libs/date/date';
+import Styled from './TransactionItem.styles';
 
 interface Props {
   transaction: Transaction;
@@ -9,11 +10,15 @@ interface Props {
 
 function TransactionItem({transaction, goToTransactionDetail}: Props) {
   return (
-    <TouchableOpacity
-      onPress={() => goToTransactionDetail(transaction)}
-      style={{height: 50, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>{transaction.amount}</Text>
-    </TouchableOpacity>
+    <Styled.Container onPress={() => goToTransactionDetail(transaction)}>
+      <Styled.Type type={transaction.type}>{transaction.type}</Styled.Type>
+      <Styled.Amount type={transaction.type}>
+        {`$${transaction.amount}`}
+      </Styled.Amount>
+      <Styled.Date>
+        {transaction.date && formatDate(transaction.date)}
+      </Styled.Date>
+    </Styled.Container>
   );
 }
 
