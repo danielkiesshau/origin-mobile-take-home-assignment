@@ -1,8 +1,8 @@
 # Running de project
-1. npm i
-2. (iOS only) bundle exec pod install
-3. create a `.env` based on `.env.example`
-3. yarn android or ios 
+1. `yarn`
+2. create a `.env` based on `.env.example`
+3. (iOS only) `bundle exec pod install``
+3. `yarn android or ios`
 
 
 # Technical Decisions
